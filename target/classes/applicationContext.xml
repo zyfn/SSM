@@ -2,8 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <context:component-scan base-package="com.zut.zyg"></context:component-scan>
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+    <context:component-scan base-package="com.zut.zyg"/>
+    <!--使用注解开启aop-->
+    <!--<aop:aspectj-autoproxy></aop:aspectj-autoproxy>-->
     <bean id="userDao" class="com.zut.zyg.DaoImpl.UserDaoImpl"></bean>
     <bean id="car1" class="com.zut.zyg.pojo.Car">
         <property name="band" value="BMW"></property>
@@ -11,19 +14,19 @@
         <property name="outputVolume" value="10.2"></property>
     </bean>
     <bean id="user1" class="com.zut.zyg.pojo.User">
-        <property name="name" value="user1" ></property>
+        <property name="name" value="user1"></property>
         <property name="compony" value="Alibaba"></property>
         <property name="car" ref="car1"></property>
         <property name="habit" value="compute"></property>
     </bean>
     <bean id="user2" class="com.zut.zyg.pojo.User">
-        <property name="name" value="user2" ></property>
+        <property name="name" value="user2"></property>
         <property name="compony" value="Baidu"></property>
         <property name="car" ref="car1"></property>
         <property name="habit" value="baseketBall"></property>
     </bean>
     <bean id="user3" class="com.zut.zyg.pojo.User">
-        <property name="name" value="user3" ></property>
+        <property name="name" value="user3"></property>
         <property name="compony" value="TX  "></property>
         <property name="car" ref="car1"></property>
         <property name="habit" value="hiphop"></property>
@@ -37,5 +40,41 @@
                 <ref bean="user2"></ref>
             </list>
         </property>
+    </bean>
+
+    <!--使用ProxyFactoryBean实现aop-->
+    <bean id="testProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!--ProxyFactoryBean的proxyInterfaces属性只支持使用字符串的方式进行注入，不支持使用Bean的依赖方式进行注入。-->
+        <property name="proxyInterfaces">
+            <value>com.zut.zyg.Service.UserService</value>
+        </property>
+        <property name="target">
+            <ref bean="userServiceImpl"></ref>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>adv</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+            <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+            <property name="url" value="jdbc:mysql://localhost:3306/ssmDemo" />
+            <property name="username" value="root" />
+            <property name="password" value="980924" />
+    </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!-- 配置mybatis的核心配置文件 -->
+        <property name="configLocation" value="classpath:mybits-config.xml"/>
+        <!-- 自动扫描mapping.xml文件，**表示迭代查找,也可在mybits-config.xml中单独指定xml文件-->
+        <property name="mapperLocations" value="classpath:com/zut/zyg/mapper/*.xml"/>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.zut.zyg.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 </beans>
