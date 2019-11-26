@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper为根元素，namespace指定了命名空间-->
+<mapper namespace="com.zut.zyg.mapper.UserMapper">
+    <!--定义一个SELECT查询-->
+    <select id="selectById" resultType="com.zut.zyg.pojo.User">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="selectByListId" resultType="com.zut.zyg.pojo.User">
+        select * from user where id in
+        <foreach item="id" collection="listId"
+            open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectByUserName" resultType="com.zut.zyg.pojo.User">
+        select * from user where username like concat('%',#{username},'%')
+    </select>
+    
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+    
+    <insert id="insertUser">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+              username,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id},
+        </if>
+        <if test="username != null">
+            #{username},
+        </if>
+        <if test="birthday != null">
+            #{birthday},
+        </if>
+        <if test="sex != null">
+            #{sex},
+        </if>
+        <if test="address != null">
+            #{address},
+        </if>
+        </trim>
+    </insert>
+
+    <select id="selectUserByOrderId" resultType="com.zut.zyg.pojo.User">
+        select u.* from user u,orders o where o.id=#{id} and o.user_id = u.id
+    </select>
+
+    <select id="selectOrderByUserName" resultType="com.zut.zyg.pojo.Orders">
+        select o.* from user u,orders o where u.username=#{username} and u.id = o.user_id
+    </select>
+    <select id="selectWoodByUserName" resultType="com.zut.zyg.pojo.Items">
+        select it.* from user u,orders o,orderdetail ot,items it where u.username=#{username} and u.id = o.user_id and o.id=ot.orders_id and ot.items_id=it.id
+    </select>
+
+</mapper>

@@ -2,45 +2,46 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/cache"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <context:component-scan base-package="com.zut.zyg"/>
     <!--使用注解开启aop-->
-    <!--<aop:aspectj-autoproxy></aop:aspectj-autoproxy>-->
-    <bean id="userDao" class="com.zut.zyg.DaoImpl.UserDaoImpl"></bean>
-    <bean id="car1" class="com.zut.zyg.pojo.Car">
-        <property name="band" value="BMW"></property>
-        <property name="color" value="white"></property>
-        <property name="outputVolume" value="10.2"></property>
-    </bean>
-    <bean id="user1" class="com.zut.zyg.pojo.User">
-        <property name="name" value="user1"></property>
-        <property name="compony" value="Alibaba"></property>
-        <property name="car" ref="car1"></property>
-        <property name="habit" value="compute"></property>
-    </bean>
-    <bean id="user2" class="com.zut.zyg.pojo.User">
-        <property name="name" value="user2"></property>
-        <property name="compony" value="Baidu"></property>
-        <property name="car" ref="car1"></property>
-        <property name="habit" value="baseketBall"></property>
-    </bean>
-    <bean id="user3" class="com.zut.zyg.pojo.User">
-        <property name="name" value="user3"></property>
-        <property name="compony" value="TX  "></property>
-        <property name="car" ref="car1"></property>
-        <property name="habit" value="hiphop"></property>
-    </bean>
-    <bean id="conference1" class="com.zut.zyg.pojo.Conference">
-        <property name="theme" value="hiphop"></property>
-        <property name="users">
-            <list>
-                <ref bean="user1"></ref>
-                <ref bean="user3"></ref>
-                <ref bean="user2"></ref>
-            </list>
-        </property>
-    </bean>
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <!--<bean id="userDao" class="com.zut.zyg.DaoImpl.UserDaoImpl"></bean>-->
+    <!--<bean id="car1" class="com.zut.zyg.pojo.Car">-->
+        <!--<property name="band" value="BMW"></property>-->
+        <!--<property name="color" value="white"></property>-->
+        <!--<property name="outputVolume" value="10.2"></property>-->
+    <!--</bean>-->
+    <!--<bean id="user1" class="com.zut.zyg.pojo.User">-->
+        <!--<property name="name" value="user1"></property>-->
+        <!--<property name="compony" value="Alibaba"></property>-->
+        <!--<property name="car" ref="car1"></property>-->
+        <!--<property name="habit" value="compute"></property>-->
+    <!--</bean>-->
+    <!--<bean id="user2" class="com.zut.zyg.pojo.User">-->
+        <!--<property name="name" value="user2"></property>-->
+        <!--<property name="compony" value="Baidu"></property>-->
+        <!--<property name="car" ref="car1"></property>-->
+        <!--<property name="habit" value="baseketBall"></property>-->
+    <!--</bean>-->
+    <!--<bean id="user3" class="com.zut.zyg.pojo.User">-->
+        <!--<property name="name" value="user3"></property>-->
+        <!--<property name="compony" value="TX  "></property>-->
+        <!--<property name="car" ref="car1"></property>-->
+        <!--<property name="habit" value="hiphop"></property>-->
+    <!--</bean>-->
+    <!--<bean id="conference1" class="com.zut.zyg.pojo.Conference">-->
+        <!--<property name="theme" value="hiphop"></property>-->
+        <!--<property name="users">-->
+            <!--<list>-->
+                <!--<ref bean="user1"></ref>-->
+                <!--<ref bean="user3"></ref>-->
+                <!--<ref bean="user2"></ref>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <!--使用ProxyFactoryBean实现aop-->
     <bean id="testProxy" class="org.springframework.aop.framework.ProxyFactoryBean">

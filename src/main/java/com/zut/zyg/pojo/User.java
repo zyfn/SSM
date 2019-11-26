@@ -1,47 +1,82 @@
 package com.zut.zyg.pojo;
 
 public class User {
-    private String name;
-    private String compony;
-    private Car car;
-    private String habit;
+    private Integer id;
+    private String username;
+    private String birthday;
+    private String sex;
+    private String address;
 
-//    public User(String name, String compony, Car car, String habit) {
-//        this.name = name;
-//        this.compony = compony;
-//        this.car = car;
-//        this.habit = habit;
-//    }
+    public User(){
 
-    public String getName() {
-        return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public User(Integer id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+    public User(Integer id, String username,String address){
+        this.id = id;
+        this.username = username;
+        this.address = address;
     }
 
-    public String getCompony() {
-        return compony;
+    public User(Integer id, String username, String birthday, String sex, String address) {
+        this.id = id;
+        this.username = username;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.address = address;
     }
 
-    public void setCompony(String compony) {
-        this.compony = compony;
+    public Integer getId() {
+        return id;
     }
 
-    public Car getCar() {
-        return car;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public String getUsername() {
+        return username;
     }
 
-    public String getHabit() {
-        return habit;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setHabit(String habit) {
-        this.habit = habit;
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", sex='" + sex + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }
